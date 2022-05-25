@@ -1,0 +1,24 @@
+spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+camunda.bpm.admin-user:
+  id: admin
+  password: admin
+
+camunda.bpm.client:
+  base-url: http://localhost:8080/engine-rest
+  worker-id: demo-worker
+  lock-duration: 21600000 # 6 hours in milliseconds
+  basic-auth:
+    username: admin
+    password: admin
+  subscriptions:
+    resource-availability-checker:
+      include-extension-properties: true
+    instance-deployment:
+      include-extension-properties: true
+    instance-storage:
+      include-extension-properties: true
+
+spring:
+  groovy:
+    template:
+      check-template-location: false
