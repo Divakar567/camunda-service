@@ -1,4 +1,12 @@
-spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+spring:
+  application:
+    name: CamundaService
+  datasource:
+    url: jdbc:h2:file:./camunda-h2-database
+  groovy:
+    template:
+      check-template-location: false
+
 camunda.bpm.admin-user:
   id: admin
   password: admin
@@ -28,7 +36,19 @@ feign:
         readTimeout: 5000
         loggerLevel: BASIC
 
-spring:
-  groovy:
-    template:
-      check-template-location: false
+resilience4j.retry:
+  configs:
+    default:
+      maxAttempts: 3
+      waitDuration: 5s
+      enableExponentialBackoff: true
+      exponentialBackoffMultiplier: 2
+#      retryExceptions:
+#        - org.springframework.web.client.HttpServerErrorException
+#        - java.io.IOException
+#      ignoreExceptions:
+#        - io.github.robwin.exception.BusinessException
+  instances:
+    camunda-service:
+      baseConfig: default
+      waitDurationInOpenState: 5000
